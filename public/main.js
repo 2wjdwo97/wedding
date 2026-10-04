@@ -1,8 +1,6 @@
 // ===== D-Day 카운터 =====
 (function initDday() {
-    // TODO: 실제 결혼식 날짜로 수정 (year, month-1, day, hour, minute, second)
-    // 월은 0부터 시작: 1월=0, 2월=1, ...
-    const weddingDate = new Date(2027, 0, 1, 13, 0, 0); // 2027-01-01 오후 1시
+    const weddingDate = new Date(2027, 1, 14, 11, 20, 0); // 2027-02-14 오전 11:20
     const el = document.getElementById('dday');
     if (!el) return;
 
