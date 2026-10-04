@@ -57,6 +57,16 @@
     let currentPage = 1;
     let editingId = null;
     let deletingId = null;
+    const commentContents = new Map(); // id(string) -> raw content (서버에서 raw 저장, 여기서 escape)
+
+    function escapeHtml(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#x27;');
+    }
 
     function formatDate(isoStr) {
         const d = new Date(isoStr);
@@ -74,29 +84,34 @@
             return;
         }
 
+        // raw content를 Map에 저장 — edit 시 DOM/attribute에서 꺼내지 않고 여기서 꺼냄
+        commentContents.clear();
+        comments.forEach(c => commentContents.set(String(c.id), c.content));
+
         list.innerHTML = comments.map(c => `
             <div class="comment-item" data-id="${c.id}">
                 <div class="comment-header">
-                    <span class="comment-name">${c.name}</span>
+                    <span class="comment-name">${escapeHtml(c.name)}</span>
                     <span class="comment-date">${formatDate(c.created_at)}</span>
                 </div>
-                <p class="comment-content">${c.content}</p>
+                <p class="comment-content">${escapeHtml(c.content)}</p>
                 <div class="comment-actions">
-                    <button class="btn-action btn-edit" data-id="${c.id}" data-content="${c.content.replace(/"/g, '&quot;')}">수정</button>
+                    <button class="btn-action btn-edit" data-id="${c.id}">수정</button>
                     <button class="btn-action btn-delete" data-id="${c.id}">삭제</button>
                 </div>
             </div>
         `).join('');
 
         list.querySelectorAll('.btn-edit').forEach(btn => {
-            btn.addEventListener('click', () => openEditModal(btn.dataset.id, btn.dataset.content));
+            btn.addEventListener('click', () => openEditModal(btn.dataset.id));
         });
         list.querySelectorAll('.btn-delete').forEach(btn => {
             btn.addEventListener('click', () => openDeleteModal(btn.dataset.id));
         });
 
+        const safeTotal = Math.max(1, totalPages);
         pagination.innerHTML = '';
-        for (let i = 1; i <= totalPages; i++) {
+        for (let i = 1; i <= safeTotal; i++) {
             const btn = document.createElement('button');
             btn.className = 'page-btn' + (i === page ? ' active' : '');
             btn.textContent = i;
@@ -151,9 +166,9 @@
         }
     });
 
-    function openEditModal(id, content) {
+    function openEditModal(id) {
         editingId = id;
-        document.getElementById('editContent').value = content;
+        document.getElementById('editContent').value = commentContents.get(id) || '';
         document.getElementById('editPassword').value = '';
         document.getElementById('editError').textContent = '';
         document.getElementById('editModal').classList.add('open');

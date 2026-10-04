@@ -123,7 +123,7 @@ export async function onRequestPost({ request, env }) {
     const hashedPw = await hashPassword(password);
     await env.DB.prepare(
         'INSERT INTO comments (name, password, content) VALUES (?, ?, ?)'
-    ).bind(escapeHtml(name), hashedPw, escapeHtml(content)).run();
+    ).bind(name, hashedPw, content).run();
 
     return jsonResponse({ success: true }, 201);
 }

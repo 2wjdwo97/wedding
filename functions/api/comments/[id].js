@@ -8,6 +8,7 @@ function escapeHtml(str) {
 }
 
 async function verifyPassword(password, stored) {
+    if (!stored || !stored.includes(':')) return false;
     const [salt, storedHex] = stored.split(':');
     const keyMaterial = await crypto.subtle.importKey(
         'raw',
@@ -77,7 +78,7 @@ export async function onRequestPut({ request, env, params }) {
 
     await env.DB.prepare(
         'UPDATE comments SET content = ? WHERE id = ?'
-    ).bind(escapeHtml(content), id).run();
+    ).bind(content, id).run();
 
     return jsonResponse({ success: true });
 }
