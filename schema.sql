@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS comments (
+    id         INTEGER  PRIMARY KEY AUTOINCREMENT,
+    name       TEXT     NOT NULL,
+    password   TEXT     NOT NULL,
+    content    TEXT     NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
