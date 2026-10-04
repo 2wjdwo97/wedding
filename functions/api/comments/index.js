@@ -104,6 +104,13 @@ export async function onRequestGet({ request, env }) {
 }
 
 export async function onRequestPost({ request, env }) {
+    const lockRow = await env.DB.prepare(
+        "SELECT value FROM settings WHERE key = 'guestbook_locked'"
+    ).first();
+    if (lockRow?.value === '1') {
+        return jsonResponse({ error: '현재 방명록이 잠겨 있습니다.' }, 423);
+    }
+
     const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
     if (!checkRateLimit(ip)) {
         return jsonResponse({ error: '요청이 너무 많습니다. 잠시 후 다시 시도해주세요.' }, 429);
