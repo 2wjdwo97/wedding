@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>청첩장 관리자</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== 로그인 화면 ===== -->
+<div id="loginView" class="view">
+    <div class="login-box">
+        <h1 class="login-title">관리자 로그인</h1>
+        <form id="loginForm">
+            <input type="text" id="loginId" placeholder="아이디" autocomplete="username" required>
+            <input type="password" id="loginPw" placeholder="비밀번호" autocomplete="current-password" required>
+            <button type="submit" id="loginBtn">로그인</button>
+        </form>
+        <p class="login-error" id="loginError"></p>
+    </div>
+</div>
+
+<!-- ===== 대시보드 ===== -->
+<div id="dashView" class="view hidden">
+    <header class="dash-header">
+        <span class="dash-title">청첩장 관리자</span>
+        <button id="logoutBtn" class="btn-logout">로그아웃</button>
+    </header>
+
+    <main class="dash-main">
+        <!-- 통계 + 잠금 -->
+        <div class="stat-row">
+            <div class="stat-card">
+                <span class="stat-label">총 방명록</span>
+                <span class="stat-value" id="totalCount">-</span>
+            </div>
+            <div class="stat-card lock-card">
+                <span class="stat-label">방명록 잠금</span>
+                <label class="toggle">
+                    <input type="checkbox" id="lockToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- 댓글 목록 -->
+        <div class="section-header">
+            <h2 class="section-title">방명록</h2>
+            <a id="csvBtn" href="/api/admin/comments/export" class="btn-csv" download="guestbook.csv">CSV 저장</a>
+        </div>
+
+        <div id="commentsList" class="comments-list"></div>
+        <div id="pagination" class="pagination"></div>
+    </main>
+</div>
+
+<script>
+let currentPage = 1;
+
+// ── 초기화: 로그인 상태 확인 ──
+async function init() {
+    const res = await fetch('/api/admin/comments?page=1', { credentials: 'include' });
+    if (res.ok) {
+        const data = await res.json();
+        showDashboard(data);
+    } else {
+        showLogin();
+    }
+}
+
+function showLogin() {
+    document.getElementById('loginView').classList.remove('hidden');
+    document.getElementById('dashView').classList.add('hidden');
+}
+
+function showDashboard(data) {
+    document.getElementById('loginView').classList.add('hidden');
+    document.getElementById('dashView').classList.remove('hidden');
+    renderComments(data);
+    loadSettings();
+}
+
+// ── 로그인 ──
+document.getElementById('loginForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = document.getElementById('loginBtn');
+    const errEl = document.getElementById('loginError');
+    btn.disabled = true;
+    btn.textContent = '로그인 중...';
+    errEl.textContent = '';
+
+    const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+            id: document.getElementById('loginId').value,
+            password: document.getElementById('loginPw').value,
+        }),
+    });
+
+    if (res.ok) {
+        const data = await (await fetch('/api/admin/comments?page=1', { credentials: 'include' })).json();
+        showDashboard(data);
+    } else {
+        const d = await res.json();
+        errEl.textContent = d.error || '로그인에 실패했습니다.';
+    }
+    btn.disabled = false;
+    btn.textContent = '로그인';
+});
+
+// ── 로그아웃 ──
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await fetch('/api/admin/logout', { method: 'POST', credentials: 'include' });
+    showLogin();
+});
+
+// ── 설정 (잠금 토글) ──
+async function loadSettings() {
+    const res = await fetch('/api/admin/settings', { credentials: 'include' });
+    if (!res.ok) return;
+    const { guestbook_locked } = await res.json();
+    document.getElementById('lockToggle').checked = guestbook_locked;
+}
+
+document.getElementById('lockToggle').addEventListener('change', async e => {
+    await fetch('/api/admin/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ guestbook_locked: e.target.checked }),
+    });
+});
+
+// ── 댓글 목록 렌더링 ──
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#x27;');
+}
+
+function formatDate(iso) {
+    const d = new Date(iso);
+    const pad = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function renderComments({ comments, total, page, totalPages }) {
+    document.getElementById('totalCount').textContent = `${total}건`;
+    currentPage = page;
+
+    const list = document.getElementById('commentsList');
+    if (comments.length === 0) {
+        list.innerHTML = '<p class="empty">방명록이 없습니다.</p>';
+        document.getElementById('pagination').innerHTML = '';
+        return;
+    }
+
+    list.innerHTML = comments.map(c => `
+        <div class="comment-item" data-id="${c.id}">
+            <div class="comment-meta">
+                <span class="comment-name">${escapeHtml(c.name)}</span>
+                <span class="comment-date">${formatDate(c.created_at)}</span>
+            </div>
+            <p class="comment-content">${escapeHtml(c.content)}</p>
+            <div class="comment-actions">
+                <button class="btn-delete" data-id="${c.id}">삭제</button>
+            </div>
+        </div>
+    `).join('');
+
+    list.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', () => deleteComment(btn.dataset.id));
+    });
+
+    const pag = document.getElementById('pagination');
+    pag.innerHTML = '';
+    for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'page-btn' + (i === page ? ' active' : '');
+        btn.textContent = i;
+        btn.addEventListener('click', () => loadComments(i));
+        pag.appendChild(btn);
+    }
+}
+
+async function loadComments(page) {
+    const res = await fetch(`/api/admin/comments?page=${page}`, { credentials: 'include' });
+    if (!res.ok) { showLogin(); return; }
+    renderComments(await res.json());
+}
+
+async function deleteComment(id) {
+    const res = await fetch(`/api/admin/comments/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+    });
+    if (res.ok) {
+        await loadComments(currentPage);
+    }
+}
+
+init();
+</script>
+</body>
+</html>
