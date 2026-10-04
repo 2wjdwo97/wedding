@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- TODO: 브라우저 탭 제목 수정 -->
+    <title>우리 결혼합니다</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===== 헤더 ===== -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-label">우리 결혼합니다</p>
+            <!-- TODO: 이름 수정 -->
+            <h1 class="hero-names">신랑이름 <span class="ampersand">&amp;</span> 신부이름</h1>
+            <!-- TODO: 날짜/시간 수정 -->
+            <p class="hero-date">2027년 1월 1일 토요일 오후 1시</p>
+        </div>
+    </section>
+
+    <!-- ===== 인사말 ===== -->
+    <section class="greeting">
+        <!-- TODO: 인사말 문구 수정 -->
+        <p class="greeting-text">
+            서로 다른 길을 걸어온 두 사람이<br>
+            이제 하나의 길을 함께 걷고자 합니다.<br><br>
+            소중한 분들을 모시고 싶어<br>
+            작은 자리를 마련했습니다.<br>
+            함께 자리해 주시면 큰 기쁨이 되겠습니다.
+        </p>
+        <div class="family-info">
+            <!-- TODO: 부모님 이름 수정 -->
+            <p>신랑아버지 · 신랑어머니의 장남 <strong>신랑이름</strong></p>
+            <p>신부아버지 · 신부어머니의 장녀 <strong>신부이름</strong></p>
+        </div>
+    </section>
+
+    <!-- ===== 날짜 & 장소 ===== -->
+    <section class="date-venue">
+        <div class="dday-wrap">
+            <span id="dday" class="dday">D-???</span>
+        </div>
+        <!-- TODO: 날짜/시간 수정 -->
+        <h2 class="venue-date">2027년 1월 1일 토요일<br>오후 1시</h2>
+        <!-- TODO: 예식장 이름/주소 수정 -->
+        <p class="venue-name">예식장 이름</p>
+        <p class="venue-address">서울특별시 강남구 테헤란로 123</p>
+        <div class="map-buttons">
+            <!-- TODO: 예식장 이름으로 검색 URL 수정 -->
+            <a href="https://map.kakao.com/link/search/예식장이름" class="btn-map btn-kakao" target="_blank" rel="noopener">카카오맵</a>
+            <a href="https://map.naver.com/p/search/예식장이름" class="btn-map btn-naver" target="_blank" rel="noopener">네이버맵</a>
+            <!-- TODO: 날짜/시간/장소 맞게 수정
+                 dates 형식: YYYYMMDDTHHmmssZ (UTC 기준, KST = UTC+9이므로 13:00 KST = 04:00 UTC)
+                 예) 2027-01-01 13:00 KST → 20270101T040000Z, 15:00 KST 종료 → 20270101T060000Z -->
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=신랑+%26+신부+결혼식&dates=20270101T040000Z/20270101T060000Z&location=예식장+이름&details=신랑+%26+신부의+결혼식에+초대합니다"
+               class="btn-map btn-gcal" target="_blank" rel="noopener">구글 캘린더</a>
+        </div>
+    </section>
+
+    <!-- ===== 갤러리 ===== -->
+    <section class="gallery-section">
+        <h2 class="section-title">우리의 이야기</h2>
+        <div class="gallery" id="gallery">
+            <!-- TODO: 사진 파일을 public/images/gallery/ 에 넣고 경로/개수 맞게 수정 -->
+            <div class="gallery-item"><img src="images/gallery/01.jpg" alt="갤러리 사진 1" loading="lazy"></div>
+            <div class="gallery-item"><img src="images/gallery/02.jpg" alt="갤러리 사진 2" loading="lazy"></div>
+            <div class="gallery-item"><img src="images/gallery/03.jpg" alt="갤러리 사진 3" loading="lazy"></div>
+        </div>
+        <div class="gallery-dots" id="galleryDots"></div>
+    </section>
+
+    <!-- ===== 방명록 ===== -->
+    <section class="comments-section">
+        <h2 class="section-title">방명록</h2>
+
+        <form class="comment-form" id="commentForm">
+            <input type="text" id="commentName" placeholder="이름" maxlength="20" required autocomplete="off">
+            <input type="password" id="commentPassword" placeholder="비밀번호 (수정·삭제 시 필요)" maxlength="20" required autocomplete="new-password">
+            <textarea id="commentContent" placeholder="축하 메시지를 남겨주세요 (500자 이내)" maxlength="500" rows="4" required></textarea>
+            <button type="submit" class="btn-submit" id="submitBtn">작성하기</button>
+        </form>
+
+        <div class="comments-list" id="commentsList">
+            <p class="comments-empty">아직 방명록이 없습니다.<br>첫 번째 축하 메시지를 남겨주세요!</p>
+        </div>
+
+        <div class="pagination" id="pagination"></div>
+    </section>
+
+    <!-- ===== 수정 모달 ===== -->
+    <div class="modal" id="editModal" aria-hidden="true">
+        <div class="modal-backdrop" id="editBackdrop"></div>
+        <div class="modal-content" role="dialog" aria-label="댓글 수정">
+            <h3>댓글 수정</h3>
+            <input type="password" id="editPassword" placeholder="비밀번호" maxlength="20" autocomplete="current-password">
+            <textarea id="editContent" maxlength="500" rows="4"></textarea>
+            <p class="modal-error" id="editError"></p>
+            <div class="modal-buttons">
+                <button id="editCancel" class="btn-secondary">취소</button>
+                <button id="editConfirm" class="btn-primary">수정</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 삭제 모달 ===== -->
+    <div class="modal" id="deleteModal" aria-hidden="true">
+        <div class="modal-backdrop" id="deleteBackdrop"></div>
+        <div class="modal-content" role="dialog" aria-label="댓글 삭제">
+            <h3>댓글 삭제</h3>
+            <p class="modal-desc">정말 삭제하시겠습니까?</p>
+            <input type="password" id="deletePassword" placeholder="비밀번호" maxlength="20" autocomplete="current-password">
+            <p class="modal-error" id="deleteError"></p>
+            <div class="modal-buttons">
+                <button id="deleteCancel" class="btn-secondary">취소</button>
+                <button id="deleteConfirm" class="btn-danger">삭제</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
