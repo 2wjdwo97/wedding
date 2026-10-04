@@ -149,7 +149,16 @@
             const data = await res.json();
 
             if (!res.ok) {
-                alert(data.error || '작성에 실패했습니다.');
+                if (res.status === 423) {
+                    const form = document.getElementById('commentForm');
+                    form.querySelectorAll('input, textarea, button').forEach(el => { el.disabled = true; });
+                    const lockMsg = document.createElement('p');
+                    lockMsg.className = 'comments-empty';
+                    lockMsg.textContent = '현재 방명록이 잠겨 있습니다.';
+                    form.after(lockMsg);
+                } else {
+                    alert(data.error || '작성에 실패했습니다.');
+                }
                 return;
             }
 
