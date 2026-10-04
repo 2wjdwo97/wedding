@@ -5,4 +5,4 @@ pages_build_output_dir = "public"
 [[d1_databases]]
 binding = "DB"
 database_name = "wedding-db"
-database_id = "REPLACE_AFTER_D1_CREATE"
+database_id = "d79facb9-1db5-438a-8172-08f282b48fe7"
