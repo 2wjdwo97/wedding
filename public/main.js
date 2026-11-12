@@ -548,6 +548,9 @@ function openRsvpPopup() {
                 slider.appendChild(pageEl);
                 _sliderPages.push(slot);
             }
+            const spacer = document.createElement('div');
+            spacer.style.cssText = 'flex-shrink:0;width:calc(10% - 0.24rem)';
+            slider.appendChild(spacer);
 
             // 페이지 버튼
             for (let p = 0; p < _sliderTotalPages; p++) {
