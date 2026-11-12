@@ -13,10 +13,20 @@
 <!-- ===== 로그인 화면 ===== -->
 <div id="loginView" class="view">
     <div class="login-box">
-        <h1 class="login-title">관리자 로그인</h1>
+        <div class="login-logo">
+            <div class="login-logo-symbol">♡</div>
+            <h1 class="login-title">이정재 · 임효진</h1>
+            <p class="login-subtitle">관리자 페이지</p>
+        </div>
         <form id="loginForm">
-            <input type="text" id="loginId" placeholder="아이디" autocomplete="username" required>
-            <input type="password" id="loginPw" placeholder="비밀번호" autocomplete="current-password" required>
+            <div>
+                <label class="form-label" for="loginId">아이디</label>
+                <input type="text" id="loginId" placeholder="아이디를 입력하세요" autocomplete="username" required>
+            </div>
+            <div>
+                <label class="form-label" for="loginPw">비밀번호</label>
+                <input type="password" id="loginPw" placeholder="비밀번호를 입력하세요" autocomplete="current-password" required>
+            </div>
             <button type="submit" id="loginBtn">로그인</button>
         </form>
         <p class="login-error" id="loginError"></p>
@@ -31,41 +41,106 @@
     </header>
 
     <main class="dash-main">
-        <!-- 통계 + 잠금 -->
-        <div class="stat-row">
-            <div class="stat-card">
-                <span class="stat-label">총 방명록</span>
-                <span class="stat-value" id="totalCount">-</span>
+        <!-- 탭 -->
+        <nav class="admin-tabs">
+            <button class="admin-tab active" data-tab="guestbook">방명록</button>
+            <button class="admin-tab" data-tab="rsvp">참석 현황</button>
+        </nav>
+
+        <!-- ── 방명록 탭 ── -->
+        <div id="tabGuestbook" class="tab-panel">
+            <div class="stat-row">
+                <div class="stat-card">
+                    <span class="stat-label">총 방명록</span>
+                    <span class="stat-value" id="totalCount">-</span>
+                </div>
+                <div class="stat-card lock-card">
+                    <span class="stat-label">방명록 잠금</span>
+                    <label class="toggle">
+                        <input type="checkbox" id="lockToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
             </div>
-            <div class="stat-card lock-card">
-                <span class="stat-label">방명록 잠금</span>
-                <label class="toggle">
-                    <input type="checkbox" id="lockToggle">
-                    <span class="toggle-slider"></span>
-                </label>
+
+            <div class="section-header">
+                <h2 class="section-title">방명록</h2>
+                <a href="/api/admin/comments/export" class="btn-csv" download="guestbook.csv">CSV 저장</a>
             </div>
+
+            <div id="commentsList" class="comments-list"></div>
+            <div id="pagination" class="pagination"></div>
         </div>
 
-        <!-- 댓글 목록 -->
-        <div class="section-header">
-            <h2 class="section-title">방명록</h2>
-            <a id="csvBtn" href="/api/admin/comments/export" class="btn-csv" download="guestbook.csv">CSV 저장</a>
-        </div>
+        <!-- ── 참석 현황 탭 ── -->
+        <div id="tabRsvp" class="tab-panel hidden">
+            <div class="stat-row">
+                <div class="stat-card">
+                    <span class="stat-label">총 응답</span>
+                    <span class="stat-value" id="rsvpTotal">-</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">참석 가능</span>
+                    <span class="stat-value attend-yes" id="rsvpAttending">-</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">불참</span>
+                    <span class="stat-value attend-no" id="rsvpNotAttending">-</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">식사 포함</span>
+                    <span class="stat-value" id="rsvpMeal">-</span>
+                </div>
+            </div>
 
-        <div id="commentsList" class="comments-list"></div>
-        <div id="pagination" class="pagination"></div>
+            <div class="section-header">
+                <h2 class="section-title">참석 현황</h2>
+                <a href="/api/admin/rsvp/export" class="btn-csv" download="rsvp.csv">CSV 저장</a>
+            </div>
+
+            <div class="side-filter">
+                <button class="side-filter-btn active" data-side="">전체</button>
+                <button class="side-filter-btn" data-side="신랑측">신랑측</button>
+                <button class="side-filter-btn" data-side="신부측">신부측</button>
+            </div>
+
+            <div id="rsvpList" class="comments-list"></div>
+            <div id="rsvpPagination" class="pagination"></div>
+        </div>
     </main>
 </div>
 
 <script>
 let currentPage = 1;
+let rsvpCurrentPage = 1;
+let rsvpSideFilter = '';
 
-// ── 초기화: 로그인 상태 확인 ──
+document.querySelectorAll('.side-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.side-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        rsvpSideFilter = btn.dataset.side;
+        loadRsvp(1);
+    });
+});
+
+// ── 탭 전환 ──
+document.querySelectorAll('.admin-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+        btn.classList.add('active');
+        const tab = btn.dataset.tab;
+        document.getElementById(tab === 'rsvp' ? 'tabRsvp' : 'tabGuestbook').classList.remove('hidden');
+        if (tab === 'rsvp') loadRsvp(1);
+    });
+});
+
+// ── 초기화 ──
 async function init() {
     const res = await fetch('/api/admin/comments?page=1', { credentials: 'include' });
     if (res.ok) {
-        const data = await res.json();
-        showDashboard(data);
+        showDashboard(await res.json());
     } else {
         showLogin();
     }
@@ -119,7 +194,7 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
     showLogin();
 });
 
-// ── 설정 (잠금 토글) ──
+// ── 설정 ──
 async function loadSettings() {
     const res = await fetch('/api/admin/settings', { credentials: 'include' });
     if (!res.ok) return;
@@ -136,22 +211,22 @@ document.getElementById('lockToggle').addEventListener('change', async e => {
     });
 });
 
-// ── 댓글 목록 렌더링 ──
+// ── 공통 유틸 ──
 function escapeHtml(str) {
+    if (str == null) return '';
     return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#x27;');
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
 }
 
 function formatDate(iso) {
+    if (!iso) return '';
     const d = new Date(iso);
     const pad = n => String(n).padStart(2, '0');
     return `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
+// ── 방명록 ──
 function renderComments({ comments, total, page, totalPages }) {
     document.getElementById('totalCount').textContent = `${total}건`;
     currentPage = page;
@@ -169,6 +244,7 @@ function renderComments({ comments, total, page, totalPages }) {
                 <span class="comment-name">${escapeHtml(c.name)}</span>
                 <span class="comment-date">${formatDate(c.created_at)}</span>
             </div>
+            ${c.drawing ? `<img class="admin-drawing" src="${c.drawing}" alt="얼굴 그림">` : ''}
             <p class="comment-content">${escapeHtml(c.content)}</p>
             <div class="comment-actions">
                 <button class="btn-delete" data-id="${c.id}">삭제</button>
@@ -180,15 +256,7 @@ function renderComments({ comments, total, page, totalPages }) {
         btn.addEventListener('click', () => deleteComment(btn.dataset.id));
     });
 
-    const pag = document.getElementById('pagination');
-    pag.innerHTML = '';
-    for (let i = 1; i <= totalPages; i++) {
-        const btn = document.createElement('button');
-        btn.className = 'page-btn' + (i === page ? ' active' : '');
-        btn.textContent = i;
-        btn.addEventListener('click', () => loadComments(i));
-        pag.appendChild(btn);
-    }
+    renderPagination('pagination', totalPages, page, loadComments);
 }
 
 async function loadComments(page) {
@@ -198,12 +266,75 @@ async function loadComments(page) {
 }
 
 async function deleteComment(id) {
-    const res = await fetch(`/api/admin/comments/${id}`, {
-        method: 'DELETE',
-        credentials: 'include',
+    if (!confirm('삭제하시겠습니까?')) return;
+    const res = await fetch(`/api/admin/comments/${id}`, { method: 'DELETE', credentials: 'include' });
+    if (res.ok) await loadComments(currentPage);
+}
+
+async function deleteRsvp(id) {
+    if (!confirm('삭제하시겠습니까?')) return;
+    const res = await fetch(`/api/admin/rsvp/${id}`, { method: 'DELETE', credentials: 'include' });
+    if (res.ok) await loadRsvp(rsvpCurrentPage);
+}
+
+// ── 참석 현황 ──
+async function loadRsvp(page) {
+    rsvpCurrentPage = page;
+    const sideParam = rsvpSideFilter ? `&side=${encodeURIComponent(rsvpSideFilter)}` : '';
+    const res = await fetch(`/api/admin/rsvp?page=${page}${sideParam}`, { credentials: 'include' });
+    if (!res.ok) { showLogin(); return; }
+    const data = await res.json();
+
+    document.getElementById('rsvpTotal').textContent       = `${data.stats.total}건`;
+    document.getElementById('rsvpAttending').textContent   = `${data.stats.attending}명`;
+    document.getElementById('rsvpNotAttending').textContent = `${data.stats.notAttending}명`;
+    document.getElementById('rsvpMeal').textContent        = `${data.stats.meal}명`;
+
+    const list = document.getElementById('rsvpList');
+    if (data.rsvps.length === 0) {
+        list.innerHTML = '<p class="empty">참석 응답이 없습니다.</p>';
+        document.getElementById('rsvpPagination').innerHTML = '';
+        return;
+    }
+
+    list.innerHTML = data.rsvps.map(r => `
+        <div class="comment-item rsvp-item">
+            <div class="comment-meta">
+                <span class="comment-name">
+                    ${escapeHtml(r.name || '(미입력)')}
+                    ${r.side ? `<span class="rsvp-side">${escapeHtml(r.side)}</span>` : ''}
+                    <span class="rsvp-badge ${r.attend === '가능' ? 'badge-yes' : 'badge-no'}">${escapeHtml(r.attend)}</span>
+                </span>
+                <span class="comment-date">${formatDate(r.created_at)}</span>
+            </div>
+            <div class="rsvp-detail">
+                ${r.phone ? `<span>📞 ${escapeHtml(r.phone)}</span>` : ''}
+                ${r.extra_guests ? `<span>👥 추가 ${r.extra_guests}명</span>` : ''}
+                ${r.meal ? `<span>🍽 ${escapeHtml(r.meal)}</span>` : ''}
+                ${r.message ? `<span>💬 ${escapeHtml(r.message)}</span>` : ''}
+            </div>
+            <div class="comment-actions">
+                <button class="btn-delete" data-id="${r.id}">삭제</button>
+            </div>
+        </div>
+    `).join('');
+
+    list.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', () => deleteRsvp(btn.dataset.id));
     });
-    if (res.ok) {
-        await loadComments(currentPage);
+
+    renderPagination('rsvpPagination', data.totalPages, page, loadRsvp);
+}
+
+function renderPagination(containerId, totalPages, currentPage, loadFn) {
+    const pag = document.getElementById(containerId);
+    pag.innerHTML = '';
+    for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'page-btn' + (i === currentPage ? ' active' : '');
+        btn.textContent = i;
+        btn.addEventListener('click', () => loadFn(i));
+        pag.appendChild(btn);
     }
 }
 

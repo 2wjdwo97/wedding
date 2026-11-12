@@ -11,3 +11,15 @@ CREATE TABLE IF NOT EXISTS settings (
     value TEXT NOT NULL
 );
 INSERT OR IGNORE INTO settings (key, value) VALUES ('guestbook_locked', '0');
+
+CREATE TABLE IF NOT EXISTS rsvp (
+    id           INTEGER  PRIMARY KEY AUTOINCREMENT,
+    attend       TEXT     NOT NULL,
+    name         TEXT,
+    side         TEXT,
+    phone        TEXT,
+    extra_guests INTEGER  DEFAULT 0,
+    meal         TEXT,
+    message      TEXT,
+    created_at   DATETIME DEFAULT CURRENT_TIMESTAMP
+);

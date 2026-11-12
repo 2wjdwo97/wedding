@@ -16,7 +16,7 @@ export async function onRequestGet({ request, env }) {
     const total = countResult.total;
 
     const { results: comments } = await env.DB.prepare(
-        'SELECT id, name, content, created_at FROM comments ORDER BY created_at DESC LIMIT ? OFFSET ?'
+        'SELECT id, name, content, drawing, created_at FROM comments ORDER BY created_at DESC LIMIT ? OFFSET ?'
     ).bind(PAGE_SIZE, offset).all();
 
     return jsonRes({

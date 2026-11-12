@@ -1,4 +1,4 @@
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 12;
 const rateLimitMap = new Map();
 
 export function escapeHtml(str) {
@@ -92,7 +92,7 @@ export async function onRequestGet({ request, env }) {
     const total = countResult.total;
 
     const { results: comments } = await env.DB.prepare(
-        'SELECT id, name, content, created_at FROM comments ORDER BY created_at DESC LIMIT ? OFFSET ?'
+        'SELECT id, name, content, drawing, created_at FROM comments ORDER BY created_at DESC LIMIT ? OFFSET ?'
     ).bind(PAGE_SIZE, offset).all();
 
     return jsonResponse({
@@ -123,14 +123,20 @@ export async function onRequestPost({ request, env }) {
         return jsonResponse({ error: '잘못된 요청입니다.' }, 400);
     }
 
-    const { name, password, content } = body;
+    const { name, password, content, drawing } = body;
     const err = validateInput({ name, password, content });
     if (err) return jsonResponse({ error: err }, 400);
 
+    if (drawing !== undefined && drawing !== null) {
+        if (typeof drawing !== 'string' || drawing.length > 100000) {
+            return jsonResponse({ error: '그림 파일이 너무 큽니다.' }, 400);
+        }
+    }
+
     const hashedPw = await hashPassword(password);
     await env.DB.prepare(
-        'INSERT INTO comments (name, password, content) VALUES (?, ?, ?)'
-    ).bind(name, hashedPw, content).run();
+        'INSERT INTO comments (name, password, content, drawing) VALUES (?, ?, ?, ?)'
+    ).bind(name, hashedPw, content, drawing || null).run();
 
     return jsonResponse({ success: true }, 201);
 }

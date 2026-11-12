@@ -2,117 +2,521 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이정재 &amp; 임효진의 결혼식에 초대합니다</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>이정재 &amp; 임효진 — 결혼식에 초대합니다</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&family=Nanum+Brush+Script&family=Nanum+Pen+Script&family=Single+Day&family=Sunflower:wght@300;500&family=Great+Vibes&family=Pinyon+Script&family=Alex+Brush&family=Italianno&family=Rock+Salt&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+    @font-face {
+        font-family: 'KimNamYun';
+        src: url('https://cdn.jsdelivr.net/gh/fontbee/font@main/Yoondesign/KimNamyun.woff') format('woff');
+        font-weight: normal; font-style: normal;
+    }
+    </style>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- ===== 헤더 ===== -->
-    <section class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <p class="hero-label">우리 결혼합니다</p>
-            <h1 class="hero-names">이정재 <span class="ampersand">&amp;</span> 임효진</h1>
-            <p class="hero-date">2027년 2월 14일 일요일 오전 11시 20분</p>
+<!-- ══════════════════ COVER ══════════════════ -->
+<section class="cover" id="cover">
+    <div class="cover-photo"></div>
+
+
+    <div class="cover-inner">
+        <p class="cover-label">Wedding Invitation</p>
+        <p class="cover-date">2027.02.14.SUN.11:20 AM</p>
+        <h1 class="cover-names">이정재<span class="amp">&amp;</span>임효진</h1>
+    </div>
+
+    <div class="cover-bottom" style="display:none">
+        <p class="scroll-label">Scroll</p>
+        <div class="scroll-arrow"></div>
+    </div>
+</section>
+
+<!-- ══════════════════ 인사말 ══════════════════ -->
+<section class="greeting-section">
+    <!-- 섬세한 보태니컬 -->
+    <img class="section-star reveal" src="/images/star.png" alt="">
+
+    <p class="section-en reveal reveal-delay-1">Invitation</p>
+    <p class="greeting-text reveal reveal-delay-2">
+        서로 다른 길을 걸어온 두 사람이<br>
+        이제 하나의 길을 함께 걷고자 합니다.<br><br>
+        소중한 분들을 모시고 싶어<br>
+        작은 자리를 마련했습니다.<br>
+        함께 자리해 주시면<br>
+        큰 기쁨이 되겠습니다.
+    </p>
+
+    <div class="greeting-divider reveal reveal-delay-3"></div>
+
+    <div class="family-block reveal reveal-delay-4">
+        <p>이승휘 · 김윤희의 차남 &nbsp;<strong>이정재</strong></p>
+        <p>임민철 · 최수임의 장녀 &nbsp;<strong>임효진</strong></p>
+    </div>
+</section>
+
+<!-- ══════════════════ 날짜 & 장소 ══════════════════ -->
+<section class="date-section">
+    <p class="section-en reveal">Date &amp; Venue</p>
+
+    <div class="reveal reveal-delay-1">
+        <div class="dday-badge" id="dday">D - ???</div>
+    </div>
+
+    <p class="date-display reveal reveal-delay-2">2027년 2월 14일</p>
+    <p class="date-sub reveal reveal-delay-3">일요일 오전 11시 20분</p>
+
+    <!-- 달력 -->
+    <div class="calendar-wrap reveal reveal-delay-2">
+        <p class="cal-header">February 2027</p>
+        <div class="cal-grid">
+            <div class="cal-day-label sun">일</div>
+            <div class="cal-day-label">월</div>
+            <div class="cal-day-label">화</div>
+            <div class="cal-day-label">수</div>
+            <div class="cal-day-label">목</div>
+            <div class="cal-day-label">금</div>
+            <div class="cal-day-label sat">토</div>
+            <!-- 2027-02: 1일은 월요일 -->
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell">1</div>
+            <div class="cal-cell">2</div>
+            <div class="cal-cell">3</div>
+            <div class="cal-cell">4</div>
+            <div class="cal-cell">5</div>
+            <div class="cal-cell">6</div>
+            <div class="cal-cell">7</div>
+            <div class="cal-cell">8</div>
+            <div class="cal-cell">9</div>
+            <div class="cal-cell">10</div>
+            <div class="cal-cell">11</div>
+            <div class="cal-cell">12</div>
+            <div class="cal-cell">13</div>
+            <div class="cal-cell today">14</div>
+            <div class="cal-cell">15</div>
+            <div class="cal-cell">16</div>
+            <div class="cal-cell">17</div>
+            <div class="cal-cell">18</div>
+            <div class="cal-cell">19</div>
+            <div class="cal-cell">20</div>
+            <div class="cal-cell">21</div>
+            <div class="cal-cell">22</div>
+            <div class="cal-cell">23</div>
+            <div class="cal-cell">24</div>
+            <div class="cal-cell">25</div>
+            <div class="cal-cell">26</div>
+            <div class="cal-cell">27</div>
+            <div class="cal-cell">28</div>
         </div>
-    </section>
+        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=이정재+%26+임효진+결혼식&dates=20270214T022000Z/20270214T042000Z&location=더링크호텔+웨딩+서울+구로구+경인로+610" class="gcal-btn" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            구글 캘린더에 추가하기
+        </a>
+    </div>
 
-    <!-- ===== 인사말 ===== -->
-    <section class="greeting">
-        <!-- TODO: 인사말 문구 수정 -->
-        <p class="greeting-text">
-            서로 다른 길을 걸어온 두 사람이<br>
-            이제 하나의 길을 함께 걷고자 합니다.<br><br>
-            소중한 분들을 모시고 싶어<br>
-            작은 자리를 마련했습니다.<br>
-            함께 자리해 주시면 큰 기쁨이 되겠습니다.
-        </p>
-        <div class="family-info">
-            <p>이승휘 · 김윤희의 차남 <strong>이정재</strong></p>
-            <p>임민철 · 최수임의 장녀 <strong>임효진</strong></p>
+    <!-- 장소 -->
+    <div class="venue-card reveal reveal-delay-3">
+        <!-- 탭 버튼 -->
+        <div class="map-tabs">
+            <button class="map-tab active" onclick="switchTab(this,'map-iframe')">지도보기</button>
+            <button class="map-tab" onclick="switchTab(this,'map-diagram')">약도보기</button>
         </div>
-    </section>
-
-    <!-- ===== 날짜 & 장소 ===== -->
-    <section class="date-venue">
-        <div class="dday-wrap">
-            <span id="dday" class="dday">D-???</span>
+        <!-- 탭 1: 구글맵 -->
+        <div id="map-iframe" class="map-panel">
+            <iframe
+                class="venue-map"
+                src="https://maps.google.com/maps?q=서울+구로구+경인로+610+더링크호텔&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
         </div>
-        <h2 class="venue-date">2027년 2월 14일 일요일<br>오전 11시 20분</h2>
-        <p class="venue-name">신도림 더링크 3층 베일리홀</p>
-        <p class="venue-address">서울 구로구 새말로 97 (신도림 테크노마트)</p>
-        <div class="map-buttons">
-            <a href="https://map.kakao.com/link/search/신도림+더링크" class="btn-map btn-kakao" target="_blank" rel="noopener">카카오맵</a>
-            <a href="https://map.naver.com/p/search/신도림+더링크" class="btn-map btn-naver" target="_blank" rel="noopener">네이버맵</a>
-            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=이정재+%26+임효진+결혼식&dates=20270214T022000Z/20270214T042000Z&location=신도림+더링크+3층+베일리홀&details=이정재+%26+임효진의+결혼식에+초대합니다"
-               class="btn-map btn-gcal" target="_blank" rel="noopener">구글 캘린더</a>
-        </div>
-    </section>
-
-    <!-- ===== 갤러리 ===== -->
-    <section class="gallery-section">
-        <h2 class="section-title">우리의 이야기</h2>
-        <div class="gallery" id="gallery">
-            <!-- TODO: 사진 파일을 public/images/gallery/ 에 넣고 경로/개수 맞게 수정 -->
-            <div class="gallery-item"><img src="images/gallery/01.jpg" alt="갤러리 사진 1" loading="lazy"></div>
-            <div class="gallery-item"><img src="images/gallery/02.jpg" alt="갤러리 사진 2" loading="lazy"></div>
-            <div class="gallery-item"><img src="images/gallery/03.jpg" alt="갤러리 사진 3" loading="lazy"></div>
-        </div>
-        <div class="gallery-dots" id="galleryDots"></div>
-    </section>
-
-    <!-- ===== 방명록 ===== -->
-    <section class="comments-section">
-        <h2 class="section-title">방명록</h2>
-
-        <form class="comment-form" id="commentForm">
-            <input type="text" id="commentName" placeholder="이름" maxlength="20" required autocomplete="off">
-            <input type="password" id="commentPassword" placeholder="비밀번호 (수정·삭제 시 필요)" maxlength="20" required autocomplete="new-password">
-            <textarea id="commentContent" placeholder="축하 메시지를 남겨주세요 (500자 이내)" maxlength="500" rows="4" required></textarea>
-            <button type="submit" class="btn-submit" id="submitBtn">작성하기</button>
-        </form>
-
-        <div class="comments-list" id="commentsList">
-            <p class="comments-empty">아직 방명록이 없습니다.<br>첫 번째 축하 메시지를 남겨주세요!</p>
+        <!-- 탭 2: 약도 이미지 -->
+        <div id="map-diagram" class="map-panel hidden">
+            <img src="/images/map-diagram.png" alt="약도" class="venue-diagram">
         </div>
 
-        <div class="pagination" id="pagination"></div>
-    </section>
+        <div class="venue-info">
+            <p class="venue-name">더링크호텔 웨딩</p>
+            <p class="venue-hall">3층 베일리홀</p>
+            <p class="venue-addr">서울 구로구 경인로 610 (08213) · TEL. 02-852-5000</p>
 
-    <!-- ===== 수정 모달 ===== -->
-    <div class="modal" id="editModal" aria-hidden="true">
-        <div class="modal-backdrop" id="editBackdrop"></div>
-        <div class="modal-content" role="dialog" aria-label="댓글 수정">
-            <h3>댓글 수정</h3>
-            <input type="password" id="editPassword" placeholder="비밀번호" maxlength="20" autocomplete="current-password">
-            <textarea id="editContent" maxlength="500" rows="4"></textarea>
-            <p class="modal-error" id="editError"></p>
-            <div class="modal-buttons">
-                <button id="editCancel" class="btn-secondary">취소</button>
-                <button id="editConfirm" class="btn-primary">수정</button>
+            <div class="map-btn-row">
+                <a href="https://map.kakao.com/link/search/더링크호텔+구로" class="map-btn" target="_blank">카카오맵</a>
+                <a href="https://map.naver.com/p/search/서울+구로구+경인로+610" class="map-btn" target="_blank">네이버맵</a>
             </div>
         </div>
     </div>
 
-    <!-- ===== 삭제 모달 ===== -->
-    <div class="modal" id="deleteModal" aria-hidden="true">
-        <div class="modal-backdrop" id="deleteBackdrop"></div>
-        <div class="modal-content" role="dialog" aria-label="댓글 삭제">
-            <h3>댓글 삭제</h3>
-            <p class="modal-desc">정말 삭제하시겠습니까?</p>
-            <input type="password" id="deletePassword" placeholder="비밀번호" maxlength="20" autocomplete="current-password">
-            <p class="modal-error" id="deleteError"></p>
-            <div class="modal-buttons">
-                <button id="deleteCancel" class="btn-secondary">취소</button>
-                <button id="deleteConfirm" class="btn-danger">삭제</button>
+    <!-- 교통 안내 -->
+    <div class="transport-card reveal reveal-delay-4">
+        <div class="transport-item">
+            <svg class="transport-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="18" height="11" rx="2"/>
+                <line x1="2" y1="9" x2="20" y2="9"/>
+                <circle cx="6.5" cy="17.5" r="1.8"/>
+                <circle cx="15.5" cy="17.5" r="1.8"/>
+            </svg>
+            <div>
+                <p class="transport-title">셔틀버스</p>
+                <p class="transport-desc">신도림역 1번 출구 (배차간격 5분 이내)</p>
+            </div>
+        </div>
+        <div class="transport-item">
+            <svg class="transport-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="16" height="12" rx="3"/>
+                <line x1="3" y1="9" x2="19" y2="9"/>
+                <circle cx="7" cy="17.5" r="1.8"/>
+                <circle cx="15" cy="17.5" r="1.8"/>
+                <line x1="11" y1="3" x2="11" y2="1"/>
+                <line x1="7.5" y1="1" x2="14.5" y2="1"/>
+            </svg>
+            <div>
+                <p class="transport-title">지하철</p>
+                <p class="transport-desc">1호선 구로역 3번 출구 도보 5분<br>1·2호선 신도림역 1번 출구 도보 10분</p>
+            </div>
+        </div>
+        <div class="transport-item">
+            <svg class="transport-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 11 L6 6 L16 6 L19 11"/>
+                <rect x="1" y="11" width="20" height="6" rx="2"/>
+                <circle cx="5.5" cy="19.5" r="1.8"/>
+                <circle cx="16.5" cy="19.5" r="1.8"/>
+            </svg>
+            <div>
+                <p class="transport-title">주차</p>
+                <p class="transport-desc">1시간 30분 무료주차 (초과 시 15분당 1,000원)<br>주차장이 혼잡하오니 대중교통을 이용해주세요.</p>
             </div>
         </div>
     </div>
+</section>
 
-    <script src="main.js"></script>
+<!-- ══════════════════ 갤러리 ══════════════════ -->
+<section class="gallery-section">
+    <p class="section-en reveal">Album</p>
+
+    <div class="gallery-scroll reveal reveal-delay-2" id="gallery">
+        <div class="gallery-item" style="background-image:url('/images/gallery/Gemini_Generated_Image_z48gq4z48gq4z48g.png')"></div>
+        <div class="gallery-item" style="background-image:url('/images/gallery/Gemini_Generated_Image_z48gq4z48gq4z48g (1).png')"></div>
+        <div class="gallery-item" style="background-image:url('/images/gallery/Gemini_Generated_Image_z48gq4z48gq4z48g (2).png')"></div>
+    </div>
+    <div class="gallery-dots" id="galleryDots"></div>
+</section>
+
+<!-- ══════════════════ 방명록 ══════════════════ -->
+<section class="guestbook-section">
+    <p class="section-en reveal">Guestbook</p>
+
+    <div class="face-slider-wrap reveal reveal-delay-2">
+        <div class="face-slider" id="faceSlider"></div>
+    </div>
+    <div class="face-slider-pages" id="faceSliderPages"></div>
+
+    <button class="guestbook-write-btn reveal reveal-delay-3" id="gbWriteBtn">방명록 쓰기</button>
+</section>
+
+<!-- 말풍선 -->
+<div class="face-bubble hidden" id="faceBubble">
+    <p class="bubble-name" id="bubbleName"></p>
+    <p class="bubble-date" id="bubbleDate"></p>
+    <p class="bubble-msg" id="bubbleMsg"></p>
+    <div class="bubble-actions">
+        <button class="bubble-btn bubble-btn-edit" id="bubbleEditBtn">수정</button>
+        <button class="bubble-btn bubble-btn-delete" id="bubbleDeleteBtn">삭제</button>
+    </div>
+</div>
+
+<!-- 방명록 쓰기 팝업 -->
+<div id="gbOverlay" class="gb-overlay hidden">
+    <div class="gb-backdrop" id="gbBackdrop"></div>
+    <div class="gb-card">
+        <button class="gb-close" id="gbCloseBtn">✕</button>
+        <div class="gb-header">
+            <p class="gb-title">Guestbook</p>
+            <p class="gb-desc">얼굴을 그리고 한마디 남겨주세요</p>
+        </div>
+        <div class="gb-step">
+            <span class="gb-step-num">01</span>
+            <span class="gb-step-txt">얼굴 그리기</span>
+        </div>
+        <div class="gb-draw-area">
+            <div class="skin-swatches" id="skinSwatches">
+                <button class="skin-swatch active" data-color="#FFE0C8" style="background:#FFE0C8"></button>
+                <button class="skin-swatch" data-color="#F5C285" style="background:#F5C285"></button>
+                <button class="skin-swatch" data-color="#D4915A" style="background:#D4915A"></button>
+                <button class="skin-swatch" data-color="#9A5530" style="background:#9A5530"></button>
+                <button class="skin-swatch" data-color="#6B3520" style="background:#6B3520"></button>
+                <button class="skin-swatch" data-color="#E0756A" style="background:#E0756A"></button>
+            </div>
+            <canvas class="draw-canvas" id="drawCanvas"></canvas>
+            <div class="draw-controls">
+                <button type="button" class="draw-btn" id="drawUndoBtn" disabled>되돌리기</button>
+                <button type="button" class="draw-btn" id="drawEraseBtn">지우개</button>
+                <button type="button" class="draw-btn" id="drawClearBtn">전체 지우기</button>
+            </div>
+        </div>
+        <div class="gb-sep">— ✦ —</div>
+        <div class="gb-step">
+            <span class="gb-step-num">02</span>
+            <span class="gb-step-txt">메시지 작성</span>
+        </div>
+        <div class="form-row">
+            <div class="form-field">
+                <label class="form-label">이름</label>
+                <input type="text" id="gbName" class="form-input" placeholder="홍길동" maxlength="20" autocomplete="off">
+            </div>
+            <div class="form-field">
+                <label class="form-label">비밀번호</label>
+                <input type="password" id="gbPassword" class="form-input" placeholder="••••" maxlength="20" autocomplete="new-password">
+            </div>
+        </div>
+        <textarea id="gbContent" class="form-textarea" rows="3" placeholder="축하 메시지를 남겨주세요 ♡" maxlength="500"></textarea>
+        <button class="submit-btn" id="gbSubmitBtn">작성하기</button>
+    </div>
+</div>
+
+<!-- ══════════════════ 수정 모달 ══════════════════ -->
+<div class="modal" id="editModal" aria-hidden="true">
+    <div class="modal-backdrop" id="editBackdrop"></div>
+    <div class="modal-content" role="dialog" aria-label="댓글 수정">
+        <h3>댓글 수정</h3>
+        <input type="password" id="editPassword" placeholder="비밀번호" maxlength="20" autocomplete="current-password">
+        <textarea id="editContent" maxlength="500" rows="4"></textarea>
+        <p class="modal-error" id="editError"></p>
+        <div class="modal-buttons">
+            <button id="editCancel" class="btn-secondary">취소</button>
+            <button id="editConfirm" class="btn-primary">수정</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════ 삭제 모달 ══════════════════ -->
+<div class="modal" id="deleteModal" aria-hidden="true">
+    <div class="modal-backdrop" id="deleteBackdrop"></div>
+    <div class="modal-content" role="dialog" aria-label="댓글 삭제">
+        <h3>댓글 삭제</h3>
+        <p class="modal-desc">정말 삭제하시겠습니까?</p>
+        <input type="password" id="deletePassword" placeholder="비밀번호" maxlength="20" autocomplete="current-password">
+        <p class="modal-error" id="deleteError"></p>
+        <div class="modal-buttons">
+            <button id="deleteCancel" class="btn-secondary">취소</button>
+            <button id="deleteConfirm" class="btn-danger">삭제</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════ 계좌 안내 ══════════════════ -->
+<section class="account-section">
+    <p class="section-en reveal">Account</p>
+
+    <p class="account-msg reveal reveal-delay-1">축하해 주시는 마음에 깊이 감사드립니다.<br>소중한 뜻을 전해 주시고 싶은 분들을 위해<br>계좌번호를 안내해 드립니다.</p>
+
+    <div class="account-cards reveal reveal-delay-2">
+        <!-- 신랑측 -->
+        <div class="account-side" id="acctGroom">
+            <div class="account-side-header" onclick="toggleAccount('acctGroom')">
+                <span class="account-side-label">신랑측</span>
+                <span class="account-side-arrow">▼</span>
+            </div>
+            <div class="account-body">
+                <div class="account-row">
+                    <div class="account-info">
+                        <span class="account-holder"><strong>이정재</strong> 본인</span>
+                        <span class="account-number">KB국민은행 &nbsp;123-456-789012</span>
+                    </div>
+                    <button class="account-copy-btn" onclick="copyAccount(this, '123456789012')">복사</button>
+                </div>
+                <div class="account-row">
+                    <div class="account-info">
+                        <span class="account-holder"><strong>이승휘</strong> 부</span>
+                        <span class="account-number">신한은행 &nbsp;110-123-456789</span>
+                    </div>
+                    <button class="account-copy-btn" onclick="copyAccount(this, '110123456789')">복사</button>
+                </div>
+                <div class="account-row">
+                    <div class="account-info">
+                        <span class="account-holder"><strong>김윤희</strong> 모</span>
+                        <span class="account-number">우리은행 &nbsp;1002-123-456789</span>
+                    </div>
+                    <button class="account-copy-btn" onclick="copyAccount(this, '1002123456789')">복사</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 신부측 -->
+        <div class="account-side" id="acctBride">
+            <div class="account-side-header" onclick="toggleAccount('acctBride')">
+                <span class="account-side-label">신부측</span>
+                <span class="account-side-arrow">▼</span>
+            </div>
+            <div class="account-body">
+                <div class="account-row">
+                    <div class="account-info">
+                        <span class="account-holder"><strong>임효진</strong> 본인</span>
+                        <span class="account-number">하나은행 &nbsp;789-012-345678</span>
+                    </div>
+                    <button class="account-copy-btn" onclick="copyAccount(this, '789012345678')">복사</button>
+                </div>
+                <div class="account-row">
+                    <div class="account-info">
+                        <span class="account-holder"><strong>임민철</strong> 부</span>
+                        <span class="account-number">카카오뱅크 &nbsp;3333-12-3456789</span>
+                    </div>
+                    <button class="account-copy-btn" onclick="copyAccount(this, '3333123456789')">복사</button>
+                </div>
+                <div class="account-row">
+                    <div class="account-info">
+                        <span class="account-holder"><strong>최수임</strong> 모</span>
+                        <span class="account-number">농협은행 &nbsp;302-1234-5678-91</span>
+                    </div>
+                    <button class="account-copy-btn" onclick="copyAccount(this, '302123456789')">복사</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════ 참석 여부 ══════════════════ -->
+<section class="rsvp-cta-section">
+    <p class="section-en reveal">RSVP</p>
+
+    <div class="rsvp-cta-box reveal reveal-delay-2">
+        <div class="rsvp-cta-icon">📩</div>
+        <p class="rsvp-cta-title">소중한 자리에 함께해 주실 분들께</p>
+        <p class="rsvp-cta-desc">좌석 및 식사를 준비하는 데 도움이 됩니다.<br>참석 가능 여부를 미리 알려주시면<br>더욱 따뜻하게 맞이하겠습니다.</p>
+        <button class="rsvp-cta-btn" onclick="openRsvpPopup()">참석 의사 전달하기</button>
+    </div>
+</section>
+
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+    <svg viewBox="0 0 200 40" fill="none" style="width:120px;margin-bottom:1.5rem;opacity:0.2">
+        <line x1="20" y1="20" x2="180" y2="20" stroke="#d4b07a" stroke-width="0.8"/>
+        <circle cx="100" cy="20" r="4" stroke="#d4b07a" stroke-width="0.8" fill="none"/>
+        <circle cx="80" cy="20" r="2" stroke="#d4b07a" stroke-width="0.6" fill="none"/>
+        <circle cx="120" cy="20" r="2" stroke="#d4b07a" stroke-width="0.6" fill="none"/>
+    </svg>
+    <p class="footer-names">이정재  ·  임효진</p>
+    <p class="footer-date">2027 · 02 · 14</p>
+</footer>
+
+
+<!-- ══════════════════ RSVP 팝업 ══════════════════ -->
+<div id="rsvpOverlay" class="rsvp-overlay hidden" role="dialog" aria-modal="true">
+    <div class="rsvp-card" id="rsvpCard">
+        <button class="rsvp-close" onclick="closeRsvp()" aria-label="닫기">✕</button>
+
+        <!-- Step 1: 안내 -->
+        <div class="rsvp-step" id="rsvpStep1">
+            <h2 class="rsvp-title">참석 의사 전달</h2>
+            <p class="rsvp-desc">소중한 자리를 빛내주실 분들을 정성껏 맞이하고 싶습니다. 참석 가능 여부를 미리 알려주시면 감사히 준비하겠습니다.</p>
+            <div class="rsvp-divider"></div>
+            <div class="rsvp-event-info">
+                <div class="rsvp-info-row">
+                    <span class="rsvp-info-icon">📅</span>
+                    <span>2027.02.14 (일) 오전 11시 20분</span>
+                </div>
+                <div class="rsvp-info-row">
+                    <span class="rsvp-info-icon">🏛️</span>
+                    <span>더링크호텔 웨딩, 3층 베일리홀</span>
+                </div>
+                <div class="rsvp-info-row">
+                    <span class="rsvp-info-icon">📍</span>
+                    <span>서울 구로구 경인로 610</span>
+                </div>
+            </div>
+            <div class="rsvp-divider"></div>
+            <div class="rsvp-action-row">
+                <button class="rsvp-btn-skip" onclick="skipRsvpToday()">오늘 하루 보지 않기</button>
+                <button class="rsvp-btn-go" onclick="showRsvpForm()">참석의사 전달하기</button>
+            </div>
+        </div>
+
+        <!-- Step 2: 참석 폼 -->
+        <div class="rsvp-step hidden" id="rsvpStep2">
+            <h2 class="rsvp-title">참석 의사 전달</h2>
+            <p class="rsvp-form-sub">따뜻한 자리를 준비할 수 있도록<br>참석 정보를 입력해 주세요.</p>
+
+            <div class="rsvp-choice-row" id="attendChoices" style="margin-bottom:1.4rem">
+                <button class="rsvp-choice active" data-group="attend" data-val="가능" onclick="selectRsvpChoice(this)">
+                    <span>🪑&nbsp; 가능</span><span class="rsvp-choice-check">✓</span>
+                </button>
+                <button class="rsvp-choice" data-group="attend" data-val="불가" onclick="selectRsvpChoice(this)">
+                    <span>🚫&nbsp; 불가</span><span class="rsvp-choice-check">○</span>
+                </button>
+            </div>
+
+            <div class="rsvp-field">
+                    <label class="rsvp-label">성함</label>
+                    <input type="text" class="rsvp-input" id="rsvpName" placeholder="성함을 입력해 주세요.">
+                    <div class="rsvp-choice-row" id="sideChoices" style="margin-top:0.8rem;margin-bottom:0">
+                        <button class="rsvp-choice" data-group="side" data-val="신랑측" onclick="selectRsvpChoice(this)">
+                            신랑측 <span class="rsvp-choice-check">○</span>
+                        </button>
+                        <button class="rsvp-choice active" data-group="side" data-val="신부측" onclick="selectRsvpChoice(this)">
+                            신부측 <span class="rsvp-choice-check">✓</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="rsvp-field">
+                    <label class="rsvp-label">연락처</label>
+                    <input type="tel" class="rsvp-input" id="rsvpPhone" placeholder="참석자 대표 연락처를 입력해 주세요.">
+                </div>
+
+                <div class="rsvp-field">
+                    <div class="rsvp-counter-row">
+                        <label class="rsvp-label" style="margin-bottom:0">추가인원</label>
+                        <div class="rsvp-counter">
+                            <button class="rsvp-counter-btn" onclick="changeCount(-1)">－</button>
+                            <span class="rsvp-count" id="rsvpCount">0</span>
+                            <button class="rsvp-counter-btn" onclick="changeCount(1)">＋</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rsvp-field" id="mealField">
+                    <label class="rsvp-label">식사여부</label>
+                    <div class="rsvp-choice-row" id="mealChoices">
+                        <button class="rsvp-choice active" data-group="meal" data-val="식사함" onclick="selectRsvpChoice(this)">
+                            식사함 <span class="rsvp-choice-check">✓</span>
+                        </button>
+                        <button class="rsvp-choice" data-group="meal" data-val="식사안함" onclick="selectRsvpChoice(this)">
+                            식사안함 <span class="rsvp-choice-check">○</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="rsvp-field">
+                    <label class="rsvp-label">전달사항</label>
+                    <textarea class="rsvp-textarea" id="rsvpMessage" maxlength="30" rows="2" placeholder="전달하실 내용을 입력해 주세요. (최대 30자)"></textarea>
+                </div>
+
+                <div class="rsvp-agree">
+                    <div class="rsvp-agree-label" onclick="toggleAgree()">
+                        <div class="rsvp-agree-box" id="rsvpAgreeBox"></div>
+                        <span class="rsvp-agree-text">동의합니다.</span>
+                    </div>
+                    <p class="rsvp-agree-desc">참석 확인을 위해 수집된 정보는 예식 종료 후 즉시 삭제됩니다.<br>항목: 성함, 연락처 · 보유기간: 예식 당일까지</p>
+                </div>
+
+            <button class="rsvp-submit" onclick="submitRsvp()">전달하기</button>
+        </div>
+
+        <!-- Step 3: 완료 -->
+        <div class="rsvp-step hidden" id="rsvpStep3">
+            <div class="rsvp-done-icon">💌</div>
+            <h2 class="rsvp-title">전달 완료</h2>
+            <p class="rsvp-desc">소중한 마음이 잘 전달되었습니다.<br>귀한 걸음 감사드립니다.</p>
+            <button class="rsvp-btn-go" onclick="closeRsvp()" style="margin-top:2rem;width:100%">닫기</button>
+        </div>
+    </div>
+</div>
+
+<script src="main.js"></script>
 </body>
 </html>
